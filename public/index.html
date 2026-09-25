@@ -78,10 +78,20 @@
       position: relative;
     }
 
-    img, video, svg {
-      max-width: 100% !important;
-      height: auto !important;
+    /* Regra para manter proporção adequada nas imagens dos cartões */
+    .card-image-container {
+      width: 100% !important;
+      height: 200px !important;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-image-container img {
+      width: 100% !important;
+      height: 100% !important;
       object-fit: cover !important;
+      object-position: center !important;
+      display: block;
     }
 
     .premium-card, 
@@ -931,18 +941,18 @@
         return `
           <div class="premium-card glass-card rounded-2xl sm:rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
             <div>
-              <div class="relative w-full h-44 sm:h-52 overflow-hidden bg-slate-100 cursor-pointer" onclick="openProductModal(${product.id})">
+              <div class="card-image-container cursor-pointer" onclick="openProductModal(${product.id})">
                 <img 
                   src="${product.image || 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600'}" 
                   alt="${product.name}" 
-                  class="w-full h-full max-w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  class="group-hover:scale-110 transition-transform duration-500"
                 />
                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span class="bg-white/90 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full shadow backdrop-blur-sm flex items-center gap-1">
                     <i data-lucide="eye" class="w-3.5 h-3.5"></i> Espiar & Personalizar
                   </span>
                 </div>
-                <span class="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 bg-white/90 backdrop-blur-md text-brand-700 text-[9px] sm:text-[10px] font-extrabold uppercase px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-sm">
+                <span class="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 bg-white/90 backdrop-blur-md text-brand-700 text-[9px] sm:text-[10px] font-extrabold uppercase px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-sm z-10">
                   ${getCategoryLabel(product.category)}
                 </span>
               </div>
