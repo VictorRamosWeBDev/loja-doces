@@ -108,10 +108,16 @@ app.get('/admin.html', (req, res, next) => {
 // Pasta PUBLIC inteira
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Pasta de imagens explicitamente
+// Pasta de imagens explicitamente (apontando para public/images)
+app.use(
+  '/images',
+  express.static(path.join(__dirname, 'public', 'images'))
+);
+
+// Mapeamento extra para garantir compatibilidade caso algum caminho ainda use /imagens
 app.use(
   '/imagens',
-  express.static(path.join(__dirname, 'public', 'imagens'))
+  express.static(path.join(__dirname, 'public', 'images'))
 );
 
 // ============================================================
@@ -137,7 +143,7 @@ app.get('/teste-imagem', (req, res) => {
   const imagem = path.join(
     __dirname,
     'public',
-    'imagens',
+    'images',
     'bolo-destaque.jpg'
   );
 
@@ -184,8 +190,8 @@ app.listen(PORT, () => {
   console.log('🍰 ============================================');
   console.log('');
   console.log(`🚀 Servidor: http://localhost:${PORT}`);
-  console.log(`🖼️ Imagens:  http://localhost:${PORT}/imagens/`);
-  console.log(`🍰 Hero:     http://localhost:${PORT}/imagens/bolo-destaque.jpg`);
+  console.log(`🖼️ Imagens:  http://localhost:${PORT}/images/`);
+  console.log(`🍰 Hero:     http://localhost:${PORT}/images/bolo-destaque.jpg`);
   console.log(`🔐 Admin:    http://localhost:${PORT}/admin.html`);
   console.log('');
   console.log('📁 Pasta pública:');
