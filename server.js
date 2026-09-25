@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const helmet = require('helmet');
 const path = require('path');
 
 const db = require('./src/config/database');
@@ -7,6 +8,14 @@ const apiRoutes = require('./src/routes/apiRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// ============================================================
+// SEGURANÇA (HELMET)
+// ============================================================
+// Protege os cabeçalhos HTTP
+app.use(helmet({
+  contentSecurityPolicy: false // Ajuste para não bloquear imagens externas/scripts inline se usares
+}));
 
 // ============================================================
 // MIDDLEWARES
@@ -20,11 +29,13 @@ app.use(express.urlencoded({ extended: true }));
 // ============================================================
 
 app.use(session({
-  secret: 'evye-doces-segredo-super-seguro',
+  secret: process.env.SESSION_SECRET || 'evye-doces-chave-temporaria-dev',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 8
+    maxAge: 1000 * 60 * 60 * 8, // 8 horas
+    secure: process.env.NODE_ENV === 'production', // HTTPS em produção (Render)
+    httpOnly: true // Impede acesso ao cookie via scripts JS do cliente
   }
 }));
 
@@ -32,8 +43,8 @@ app.use(session({
 // CREDENCIAIS DO ADMINISTRADOR
 // ============================================================
 
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = '123456';
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || '123456';
 
 // ============================================================
 // ROTAS DE AUTENTICAÇÃO
@@ -60,7 +71,6 @@ app.post('/api/login', (req, res) => {
 // Logout
 app.post('/api/logout', (req, res) => {
   req.session.destroy((err) => {
-
     if (err) {
       return res.status(500).json({
         success: false,
@@ -76,7 +86,6 @@ app.post('/api/logout', (req, res) => {
 
 // Verificar autenticação
 app.get('/api/check-auth', (req, res) => {
-
   if (req.session && req.session.authenticated) {
     return res.json({
       authenticated: true
@@ -93,7 +102,6 @@ app.get('/api/check-auth', (req, res) => {
 // ============================================================
 
 app.get('/admin.html', (req, res, next) => {
-
   if (req.session && req.session.authenticated) {
     return next();
   }
@@ -108,13 +116,12 @@ app.get('/admin.html', (req, res, next) => {
 // Pasta PUBLIC inteira
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Pasta de imagens explicitamente (apontando para public/images)
+// Pasta de imagens explicitamente
 app.use(
   '/images',
   express.static(path.join(__dirname, 'public', 'images'))
 );
 
-// Mapeamento extra para garantir compatibilidade caso algum caminho ainda use /imagens
 app.use(
   '/imagens',
   express.static(path.join(__dirname, 'public', 'images'))
@@ -139,7 +146,6 @@ app.get('/', (req, res) => {
 // ============================================================
 
 app.get('/teste-imagem', (req, res) => {
-
   const imagem = path.join(
     __dirname,
     'public',
@@ -148,7 +154,6 @@ app.get('/teste-imagem', (req, res) => {
   );
 
   res.sendFile(imagem, (err) => {
-
     if (err) {
       console.error('❌ Erro ao carregar bolo-destaque.jpg:');
       console.error(err);
@@ -169,7 +174,6 @@ app.get('/teste-imagem', (req, res) => {
 // ============================================================
 
 app.use((err, req, res, next) => {
-
   console.error('❌ Erro no servidor:', err);
 
   res.status(500).json({
@@ -183,7 +187,6 @@ app.use((err, req, res, next) => {
 // ============================================================
 
 app.listen(PORT, () => {
-
   console.log('');
   console.log('🍰 ============================================');
   console.log('🍰        EVYE DOCES - SERVIDOR ONLINE');

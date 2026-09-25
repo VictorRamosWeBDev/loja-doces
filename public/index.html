@@ -74,6 +74,7 @@
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
       background: #FFF0F4;
@@ -263,6 +264,31 @@
     }
     .luxury-divider::after { background:linear-gradient(90deg,#d4af37,transparent); }
 
+    /* ===== AJUSTES DE RESPONSIVIDADE MOBILE ===== */
+    @media screen and (max-width: 768px) {
+      .glass-nav .max-w-7xl {
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 12px;
+      }
+      /* Torna a barra de pesquisa responsiva no telemóvel */
+      .glass-nav .hidden.md\:flex {
+        display: flex !important;
+        width: 100%;
+        order: 3;
+      }
+      #cart-drawer {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      #checkout-modal-content, #product-modal-content {
+        margin: 16px;
+        max-height: 85vh;
+      }
+    }
+
     @media (prefers-reduced-motion:reduce) {
       *,*::before,*::after { animation-duration:.001ms !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
     }
@@ -298,8 +324,8 @@
         </div>
       </a>
 
-      <!-- Quick Search Bar (Desktop) -->
-      <div class="hidden md:flex items-center relative w-72">
+      <!-- Quick Search Bar (Adaptável a Mobile) -->
+      <div class="flex items-center relative w-72 md:w-72 sm:w-full">
         <input 
           type="text" 
           id="search-input" 
@@ -326,10 +352,10 @@
 
         <button 
           onclick="toggleCartDrawer()" 
-          class="shimmer-btn relative bg-gradient-to-r from-brand-500 to-pink-500 text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-glow hover:shadow-card-hover hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2.5"
+          class="shimmer-btn relative bg-gradient-to-r from-brand-500 to-pink-500 text-white px-4 sm:px-5 py-2.5 rounded-full font-bold text-sm shadow-glow hover:shadow-card-hover hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
         >
           <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-          <span>Carrinho</span>
+          <span class="hidden sm:inline">Carrinho</span>
           <span id="cart-badge-count" class="bg-white text-brand-600 text-xs font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-inner">
             0
           </span>
@@ -345,7 +371,7 @@
     <div class="absolute top-10 right-0 w-80 h-80 bg-amber-200/30 rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="hero-premium bg-gradient-to-r from-brand-600 via-pink-600 to-brand-500 rounded-3xl p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div class="hero-premium bg-gradient-to-r from-brand-600 via-pink-600 to-brand-500 rounded-3xl p-6 sm:p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
         
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
@@ -375,7 +401,7 @@
             <img 
               src="https://images.unsplash.com/photo-1586788680434-30d324b2d46f?q=80&w=800&auto=format&fit=crop" 
               alt="Bolo Especial Evye Doces" 
-              class="w-full h-64 sm:h-80 object-cover group-hover:scale-105 transition-transform duration-700"
+              class="w-full h-60 sm:h-80 object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
               <div class="text-white">
@@ -437,28 +463,28 @@
         <button 
           onclick="filterCategory('todos')" 
           data-category="todos"
-          class="filter-btn active bg-brand-500 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm whitespace-nowrap"
+          class="filter-btn active bg-brand-500 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm whitespace-nowrap shrink-0"
         >
           ✨ Todos
         </button>
         <button 
           onclick="filterCategory('bolos')" 
           data-category="bolos"
-          class="filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap"
+          class="filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap shrink-0"
         >
           🎂 Bolos de Festa
         </button>
         <button 
           onclick="filterCategory('biscoitos')" 
           data-category="biscoitos"
-          class="filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap"
+          class="filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap shrink-0"
         >
           🍪 Biscoitos
         </button>
         <button 
           onclick="filterCategory('doces')" 
           data-category="doces"
-          class="filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap"
+          class="filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap shrink-0"
         >
           🍬 Docinhos & Trufas
         </button>
@@ -520,7 +546,7 @@
   <div id="cart-drawer-overlay" onclick="toggleCartDrawer()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
   <aside id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-out flex flex-col">
-    <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-brand-50/50">
+    <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-brand-50/55">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center font-bold">
           <i data-lucide="shopping-bag" class="w-5 h-5"></i>
@@ -871,9 +897,9 @@
       currentCategory = cat;
       document.querySelectorAll('.filter-btn').forEach(btn => {
         if (btn.getAttribute('data-category') === cat) {
-          btn.className = "filter-btn active bg-brand-500 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm whitespace-nowrap";
+          btn.className = "filter-btn active bg-brand-500 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm whitespace-nowrap shrink-0";
         } else {
-          btn.className = "filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap";
+          btn.className = "filter-btn bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-600 px-4 py-2 rounded-full font-semibold text-xs uppercase tracking-wider border border-slate-200 transition-all duration-200 whitespace-nowrap shrink-0";
         }
       });
       renderProducts();
@@ -1001,14 +1027,14 @@
           <h3 class="font-serif text-2xl font-bold text-slate-900 mt-1">${product.name}</h3>
           <p class="text-slate-600 text-sm mt-3 leading-relaxed">${product.description || 'Delícia artesanal feita sob encomenda com ingredientes de alta qualidade.'}</p>
 
-          <div class="mt-6 flex items-center justify-between border-t pt-4">
-            <div>
+          <div class="mt-6 flex flex-col sm:flex-row items-center justify-between border-t pt-4 gap-4">
+            <div class="w-full sm:w-auto">
               <span class="text-xs text-slate-400 font-bold uppercase block">Valor</span>
               <span class="text-2xl font-extrabold text-slate-900">R$ ${Number(product.price).toFixed(2).replace('.', ',')}</span>
             </div>
             <button 
               onclick="addToCart(${product.id}); closeProductModal(); toggleCartDrawer();" 
-              class="shimmer-btn bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-glow flex items-center gap-2"
+              class="w-full sm:w-auto shimmer-btn bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-glow flex items-center justify-center gap-2"
             >
               <i data-lucide="shopping-bag" class="w-4 h-4"></i>
               <span>Adicionar ao Carrinho</span>
