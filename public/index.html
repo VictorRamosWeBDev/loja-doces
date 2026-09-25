@@ -51,7 +51,6 @@
   </script>
 
   <style>
-    /* Trava qualquer transbordamento lateral em telemóveis */
     html, body {
       max-width: 100%;
       overflow-x: hidden;
@@ -129,7 +128,7 @@
         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
       </div>
 
-      <!-- Ações (Painel & Carrinho) -->
+      <!-- Ações -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <a 
           href="/admin.html" 
@@ -154,7 +153,7 @@
 
     </div>
 
-    <!-- Campo de Busca no Telemóvel -->
+    <!-- Busca Mobile -->
     <div class="px-4 pb-3 md:hidden">
       <div class="relative w-full">
         <input 
@@ -170,7 +169,7 @@
   </header>
 
   <!-- HERO BANNER -->
-  <section class="relative overflow-hidden py-6 sm:py-12">
+  <section class="relative overflow-hidden py-6 sm:py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-gradient-to-br from-brand-600 via-pink-600 to-brand-500 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-6">
         
@@ -205,7 +204,7 @@
     </div>
   </section>
 
-  <!-- FILTROS DE CATEGORIAS -->
+  <!-- CARDÁPIO -->
   <section id="cardapio" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-slate-200 pb-4">
       <div>
@@ -213,7 +212,6 @@
         <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Escolha uma categoria para explorar.</p>
       </div>
 
-      <!-- Barra de scroll horizontal suave em mobile -->
       <div id="category-pills" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 max-w-full">
         <button 
           onclick="filterCategory('todos')" 
@@ -246,12 +244,8 @@
       </div>
     </div>
 
-    <!-- PRODUCT GRID RESPONSIVO -->
-    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 min-h-[300px]">
-      <div class="col-span-full flex flex-col items-center justify-center py-16 text-slate-400">
-        <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-brand-500 mb-2"></i>
-        <p class="text-xs font-medium">Carregando produtos...</p>
-      </div>
+    <!-- GRID DE PRODUTOS -->
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 items-stretch">
     </div>
   </section>
 
@@ -290,7 +284,7 @@
     </div>
   </footer>
 
-  <!-- DRAWER DO CARRINHO (SLIDE-OVER RESPONSIVO) -->
+  <!-- DRAWER DO CARRINHO -->
   <div id="cart-drawer-overlay" onclick="toggleCartDrawer()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
   <aside id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full sm:max-w-md bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-out flex flex-col">
@@ -330,7 +324,7 @@
     </div>
   </aside>
 
-  <!-- MODAL DE CHECKOUT RESPONSIVO -->
+  <!-- MODAL DE CHECKOUT -->
   <div id="checkout-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg p-5 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto" id="checkout-modal-content">
       
@@ -393,16 +387,16 @@
     </div>
   </div>
 
-  <!-- MODAL DE DETALHES / VARIANTES DO PRODUTO (RESPONSIVO) -->
+  <!-- MODAL DE PRODUTO -->
   <div id="product-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg overflow-hidden shadow-2xl relative max-h-[92vh] flex flex-col" id="product-modal-content">
     </div>
   </div>
 
-  <!-- SCRIPT COMPLETO DE LÓGICA -->
   <script>
     const whatsappPhone = "5521987654321";
 
+    // IMAGENS CORRIGIDAS AQUI:
     const defaultProducts = [
       {
         id: 1,
@@ -425,6 +419,7 @@
         name: "Biscoitos Amanteigados com Goiabada",
         category: "biscoitos",
         price: 22.00,
+        // Foto real de biscoitos amanteigados com goiabada/geleia
         image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600&auto=format&fit=crop",
         description: "O clássico casadinho amanteigado recheado com goiabada cascão.",
         variations: [
@@ -469,6 +464,7 @@
         name: "Caixa de Brigadeiros Gourmet",
         category: "doces",
         price: 38.00,
+        // Foto real de brigadeiros gourmet no lugar da foto do gato
         image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=600&auto=format&fit=crop",
         description: "Brigadeiros enrolados um a um com ingredientes nobres.",
         variations: [
@@ -517,7 +513,7 @@
         const priceText = product.variations?.length > 1 ? `A partir de R$ ${minPrice.toFixed(2).replace('.', ',')}` : `R$ ${minPrice.toFixed(2).replace('.', ',')}`;
 
         return `
-          <div class="glass-card rounded-2xl border border-slate-100 overflow-hidden shadow-sm flex flex-col justify-between group">
+          <div class="glass-card rounded-2xl border border-slate-100 overflow-hidden shadow-sm flex flex-col justify-between group h-full">
             <div>
               <div class="relative h-44 sm:h-48 bg-slate-100 cursor-pointer overflow-hidden" onclick="openProductModal(${product.id})">
                 <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -532,7 +528,7 @@
 
             <div class="p-4 pt-0 flex items-center justify-between mt-auto">
               <span class="text-xs sm:text-sm font-extrabold text-slate-900">${priceText}</span>
-              <button onclick="openProductModal(${product.id})" class="bg-brand-500 hover:bg-brand-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
+              <button onclick="openProductModal(${product.id})" class="bg-brand-500 hover:bg-brand-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm active:scale-95 transition-all">
                 Escolher
               </button>
             </div>
@@ -574,9 +570,7 @@
       };
 
       renderModalContent(p);
-
-      const modal = document.getElementById('product-modal');
-      modal.classList.remove('opacity-0', 'pointer-events-none');
+      document.getElementById('product-modal').classList.remove('opacity-0', 'pointer-events-none');
     }
 
     function renderModalContent(p) {
