@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Admin | Evye Doces</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              pink: '#FF6B8B',
+              light: '#FFF0F3'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-brand-light font-sans min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl border border-pink-100">
+    <div class="text-center mb-6">
+      <span class="text-5xl">🧁</span>
+      <h1 class="text-2xl font-bold text-slate-800 mt-2">Evye Doces - Admin</h1>
+      <p class="text-xs text-slate-500">Acesse com suas credenciais de administrador</p>
+    </div>
+
+    <!-- Alerta de Erro -->
+    <div id="error-alert" class="hidden bg-red-100 border border-red-300 text-red-700 text-xs rounded-lg p-3 mb-4 text-center font-medium"></div>
+
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Usuário</label>
+        <input type="text" id="username" placeholder="Digite o usuário" required class="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-pink transition">
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Senha</label>
+        <input type="password" id="password" placeholder="••••••••" required class="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-pink transition">
+      </div>
+
+      <button type="submit" class="w-full bg-brand-pink text-white font-bold py-3 rounded-lg shadow hover:bg-pink-600 transition flex items-center justify-center gap-2">
+        🔑 Entrar no Painel
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <a href="/" class="text-xs text-slate-400 hover:text-slate-600 font-medium">← Voltar para a Loja</a>
+    </div>
+  </div>
+
+  <script>
+    // Redireciona se já estiver autenticado
+    fetch('/api/check-auth')
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated) window.location.href = '/admin.html';
+      });
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorAlert = document.getElementById('error-alert');
+
+      errorAlert.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          window.location.href = '/admin.html';
+        } else {
+          errorAlert.innerText = data.message || 'Usuário ou senha inválidos.';
+          errorAlert.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorAlert.innerText = 'Erro ao se conectar com o servidor.';
+        errorAlert.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
